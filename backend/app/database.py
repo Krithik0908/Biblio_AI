@@ -9,16 +9,15 @@ load_dotenv()
 # Database URL from environment or default
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql://postgres:password@localhost:5432/bibleo_db"
+    "sqlite:///./bibleo.db"  # ← CHANGED DEFAULT TO SQLITE
 )
 
 # Create engine
 engine = create_engine(
     DATABASE_URL,
-    pool_size=20,
-    max_overflow=30,
+    connect_args={"check_same_thread": False},  # ← ADDED FOR SQLITE
     pool_pre_ping=True,
-    echo=False  # Set to True for SQL logging
+    echo=False
 )
 
 # Session factory
